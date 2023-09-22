@@ -1,17 +1,27 @@
-const jwt = require('jsonwebtoken');
-function authenticateJWT(req, res, next) {
-  const token = req.cookies.token
+const jwt = require('jsonwebtoken')
 
-  if (token) {
-    jwt.verify(token, secretKey, (err, user) => {
-      if (err) {
-        return res.sendStatus(403)
+module.exports = function (req, res, next) {
+  // Get token from header
+  const token = req.header('x-auth-token')
+
+  // Check if no token
+  if (!token) {
+    return res.status(401).json({ msg: 'No token, authorization denied' })
+  }
+
+  // Verify token
+  try {
+    jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
+      if (error) {
+        return res.status(401).json({ msg: 'Token is not valid' })
+      } else {
+        req.user = decoded.user
+        console.log(req.user)
+        next()
       }
-
-      req.user = user
-      next()
     })
-  } else {
-    res.sendStatus(401)
+  } catch (err) {
+    console.error('something wrong with auth middleware')
+    res.status(500).json({ msg: 'Server Error' })
   }
 }

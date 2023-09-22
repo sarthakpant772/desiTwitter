@@ -7,10 +7,11 @@ const {
   getPostById,
   getAllPost,
 } = require('../controller/post')
+const auth = require('../middleware/auth')
 
 const router = express.Router()
 
-router.post('/createPost', createPost)
+router.post('/createPost', auth, createPost)
 router.post('/likePost/:postId', likePost)
 router.post('/retweet/:postId', retweetPost)
 router.post('/comment/:postId', commentOnPost)

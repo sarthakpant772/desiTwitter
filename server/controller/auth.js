@@ -1,6 +1,7 @@
 const User = require('../model/UserSchema')
 const argon2 = require('argon2')
 const UserSchema = require('../model/UserSchema')
+const jwt = require('jsonwebtoken')
 
 const registerUser = async (req, res) => {
   password = req.body.password
@@ -14,6 +15,20 @@ const registerUser = async (req, res) => {
   })
   try {
     const savedUser = await newUser.save()
+    const payload = {
+      user: {
+        id: savedUser._id,
+      },
+    }
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: '7 days' },
+      (err, token) => {
+        if (err) throw err
+        res.json({ token })
+      },
+    )
     res.status(201).json(savedUser)
   } catch (error) {
     console.log(error)
@@ -23,13 +38,33 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const body = req.body
-  const userName = body?.userName
+  const userName = body?.username
   const password = body?.password
   try {
     const checkUser = await User.findOne({ userName: userName })
     const password_hash = checkUser?.password
     if (await argon2.verify(password_hash, password)) {
-      res.status(200).json(checkUser)
+      const payload = {
+        user: {
+          id: checkUser._id,
+        },
+      }
+
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: '30 days' },
+        (err, token) => {
+          if (err) throw err
+          res
+            .cookie('access_token', token, {
+              httpOnly: true,
+            })
+            .json({ token })
+        },
+      )
+
+      // res.status(200).json(checkUser)
     } else {
       res.status(403).json({ text: 'password not correct' })
     }
@@ -62,4 +97,27 @@ const getAllUser = async (req, res) => {
   }
 }
 
-module.exports = { registerUser, loginUser, getUserById, getAllUser }
+const getUser = async (req, res) => {
+  try {
+    const data = await User.findById(req.user.id)
+    res.status(200).json(data)
+  } catch (error) {
+    res.status(500).json({ error: 'User not found' })
+  }
+}
+
+const logout = async (req, res) => {
+  return res
+    .clearCookie('access_token')
+    .status(200)
+    .json({ messgae: 'done removed' })
+}
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getUserById,
+  getAllUser,
+  logout,
+  getUser,
+}

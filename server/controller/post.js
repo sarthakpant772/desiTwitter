@@ -1,13 +1,13 @@
 const PostSchema = require('../model/PostSchema')
-const UserSchema = require('../model/UserSchema')
+const User = require('../model/UserSchema')
 
 const createPost = async (req, res) => {
-  const { content, author } = req.body
+  const { content } = req.body
 
   try {
     const newPost = new PostSchema({
       content,
-      author,
+      author: req.user.id,
     })
 
     await newPost.save()
