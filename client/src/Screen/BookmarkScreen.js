@@ -1,10 +1,9 @@
 import { Box } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import CenterConponent from '../components/CenterConponent'
 import ShowPost from '../components/ShowPost'
 
-const TweetsScreen = () => {
+const BookmarkScreen = () => {
   const [data, setData] = useState([])
 
   const fetchData = async () => {
@@ -21,17 +20,12 @@ const TweetsScreen = () => {
   }, [])
 
   return (
-    <Box>
-      <Box sx={{ width: '100%', marginBottom: '2em' }}>
-        <CenterConponent />
-      </Box>
-      <Box sx={{ width: '100%', marginTop: '2em' }}>
-        {data.map((oneData, index) => (
-          <ShowPost key={index} data={oneData} />
-        ))}
-      </Box>
+    <Box sx={{ width: '100%', marginTop: '2em' }}>
+      {/* {data.map((oneData, index) => ( */}
+      <ShowPost />
+      {/* ))} */}
     </Box>
   )
 }
 
-export default TweetsScreen
+export default BookmarkScreen

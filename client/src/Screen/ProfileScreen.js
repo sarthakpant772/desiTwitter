@@ -1,12 +1,68 @@
-import { StayPrimaryLandscape } from '@mui/icons-material'
+// import { StayPrimaryLandscape } from '@mui/icons-material'
 import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ShowPost from '../components/ShowPost'
-import TweetsScreen from './TweetsScreen'
+// import TweetsScreen from './TweetsScreen'
 
 const ProfileScreen = () => {
   const data = useSelector((state) => state.user.data)
+  const [post, setPost] = useState([])
+
+  const getAllPost = async () => {
+    const id = localStorage.getItem('JWT')
+    console.log(id)
+    try {
+      const response = await axios.get(
+        'http://localhost:5000/post/allPostByUserId',
+        {
+          headers: {
+            'x-auth-token': id,
+          },
+        },
+      )
+      console.log(response.data) // Check the response data
+
+      // Assuming response.data is an array, return it
+      return response.data
+    } catch (err) {
+      console.log(err)
+      return [] // Return an empty array in case of an error
+    }
+  }
+
+  const handleProfilePicChange = async (e) => {
+    const file = e.target.files[0]
+    const formdata = new FormData()
+    formdata.append('file', file)
+    const id = localStorage.getItem('JWT')
+    try {
+      const res = await axios.post(
+        'http://localhost:5000/upload/profilePic',
+        formdata,
+        {
+          headers: {
+            'x-auth-token': id,
+          },
+        },
+      )
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const postsData = await getAllPost()
+      if (Array.isArray(postsData)) {
+        setPost(postsData)
+      }
+    }
+    fetchData()
+  }, [])
+
   return (
     <Box>
       <Box
@@ -29,6 +85,8 @@ const ProfileScreen = () => {
         />
         {/* imagebox */}
         <Box
+          variant="contained"
+          component="label"
           sx={{
             position: 'relative',
             width: '8em',
@@ -41,10 +99,15 @@ const ProfileScreen = () => {
             borderRadius: '50%',
           }}
         >
+          <input
+            onChange={(e) => handleProfilePicChange(e)}
+            type="file"
+            hidden
+          />
           <Box
             component="img"
             sx={{ width: '100%', height: '100%', borderRadius: '50%' }}
-            src={data.profileImage}
+            src={`http://localhost:5000/Images/${data.profileImage}`} // Use the selected image or the default profile image
           />
         </Box>
         {/* bio */}
@@ -143,9 +206,11 @@ const ProfileScreen = () => {
           </Typography>
         </Button>
       </Box>
-      <Box>
-        <ShowPost />
-      </Box>
+      {post.map((postItem, index) => (
+        <Box key={index} sx={{ width: '100%', marginTop: '2em' }}>
+          <ShowPost data={postItem} />
+        </Box>
+      ))}
     </Box>
   )
 }

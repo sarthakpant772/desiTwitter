@@ -20,6 +20,7 @@ export const verifyLogin = createAsyncThunk('user/login', async () => {
       'x-auth-token': id,
     },
   })
+  console.log(res.data)
   return res.data
 })
 

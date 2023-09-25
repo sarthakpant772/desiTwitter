@@ -55,6 +55,18 @@ const userSchema = new mongoose.Schema({
       ref: 'DesiTwitterPost',
     },
   ],
+  likedTweet: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'DesiTwitterPost',
+    },
+  ],
+  bookmark: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'DesiTwitterPost',
+    },
+  ],
 })
 
 // userSchema.methods.followersCount = function () {

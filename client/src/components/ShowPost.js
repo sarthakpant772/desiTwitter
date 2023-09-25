@@ -5,10 +5,117 @@ import LoopIcon from '@mui/icons-material/Loop'
 import SmsIcon from '@mui/icons-material/Sms'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 const ShowPost = (props) => {
   const [userData, setUserData] = useState([])
   const [date, setDate] = useState()
-  let temp
+  const [like, setLike] = useState(false)
+  const [bookmark, setBookmark] = useState(false)
+  const [reshare, setReshare] = useState(false)
+  const [followed, setFollowed] = useState(false)
+
+  const navigate = useNavigate()
+
+  const handleLike = async () => {
+    const id = localStorage.getItem('JWT')
+
+    try {
+      await axios.post(
+        `http://localhost:5000/post/likePost/${props.data?._id}`,
+        { data: 'hello' },
+        {
+          headers: {
+            'x-auth-token': id,
+          },
+        },
+      )
+      setLike(!like)
+      console.log('like/unlike')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleBookMark = async () => {
+    const id = localStorage.getItem('JWT')
+
+    try {
+      await axios.post(
+        `http://localhost:5000/action/bookmarkPost`,
+        { postId: props.data?._id },
+        {
+          headers: {
+            'x-auth-token': id,
+          },
+        },
+      )
+
+      setBookmark(!bookmark)
+      console.log('bookmarked/unbookmarked')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleFollow = async () => {
+    const id = localStorage.getItem('JWT')
+
+    try {
+      const data = await axios.put(
+        `http://localhost:5000/action/follow/${userData._id}`,
+        null,
+        {
+          headers: {
+            'x-auth-token': id,
+          },
+        },
+      )
+      setFollowed(!followed)
+      return data.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const handleUnFollow = async () => {
+    const id = localStorage.getItem('JWT')
+
+    try {
+      const data = await axios.put(
+        `http://localhost:5000/action/unfollow/${userData?._id}`,
+        null,
+        {
+          headers: {
+            'x-auth-token': id,
+          },
+        },
+      )
+      setFollowed(!followed)
+      return data.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleReshare = async () => {
+    const id = localStorage.getItem('JWT')
+
+    try {
+      await axios.post(
+        `http://localhost:5000/action/reshare`,
+        { postId: props.data?._id },
+        {
+          headers: {
+            'x-auth-token': id,
+          },
+        },
+      )
+      setReshare(!reshare)
+      console.log('reshared/unReshared')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const formatDateToDaysAgo = (dateString) => {
     const date = new Date(dateString)
     const currentDate = new Date()
@@ -35,18 +142,61 @@ const ShowPost = (props) => {
       return null
     }
   }
+  const getCurrentUserData = async () => {
+    const id = localStorage.getItem('JWT')
+    try {
+      const udata = await axios.get(`http://localhost:5000/user/getUser`, {
+        headers: {
+          'x-auth-token': id,
+        },
+      })
+      return udata.data
+    } catch (err) {
+      console.log(err)
+      return null
+    }
+  }
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(props.data?._id)
+      // error getting post user and checking [post user only ]
       const user = await getUserData()
+
+      const currentUser = await getCurrentUserData()
+
       if (user) {
+        // console.log(user)
         setUserData(user)
+
+        const isPostLiked =
+          Array.isArray(currentUser.likedTweet) &&
+          currentUser.likedTweet.includes(props.data?._id)
+        setLike(isPostLiked)
+
+        const isBookmarked =
+          Array.isArray(currentUser.bookmark) &&
+          currentUser.bookmark.includes(props.data?._id)
+        setBookmark(isBookmarked)
+
+        const isReshared =
+          Array.isArray(currentUser.retweets) &&
+          currentUser.retweets.includes(props.data?._id)
+        setReshare(isReshared)
+
+        const isFollowed =
+          Array.isArray(currentUser.following) &&
+          currentUser.following.includes(user?._id)
+
+        setFollowed(isFollowed)
       }
     }
 
+    const formattedDate = formatDateToDaysAgo(props.data?.createdAt)
+    setDate(formattedDate)
+
     fetchData()
-    setDate(formatDateToDaysAgo(props.data.createdAt))
-  }, [props.data.createdAt])
+  }, [props.data?._id])
 
   return (
     <Box
@@ -73,27 +223,73 @@ const ShowPost = (props) => {
             width: '2.5em',
             borderRadius: '50%',
           }}
-          src={props.imgURL}
+          src={`http://localhost:5000/Images/${userData.profileImage}`}
         />
       </Box>
       {/* right */}
       <Box sx={{ width: '90%', marginRight: '1em' }}>
-        <Box sx={{ minHeight: '1.5em', alignItems: 'center', width: '100%' }}>
-          <Typography
-            variant="h6"
-            sx={{ color: 'primary.contrastText' }}
-          >{`${userData.fname} ${userData.lname}`}</Typography>
-          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+        <Box
+          sx={{
+            minHeight: '1.5em',
+            alignItems: 'center',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box>
             <Typography
-              variant="subtitle2"
+              variant="h6"
               sx={{ color: 'primary.contrastText' }}
-            >{`@${userData.userName}`}</Typography>
-            <Typography
-              variant="subtitle2"
-              sx={{ color: 'secondary.contrastText', marginLeft: '1em' }}
-            >
-              {date}
-            </Typography>
+            >{`${userData.fname} ${userData.lname}`}</Typography>
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+              <Typography
+                variant="subtitle2"
+                sx={{ color: 'primary.contrastText' }}
+              >{`@${userData.userName}`}</Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ color: 'secondary.contrastText', marginLeft: '1em' }}
+              >
+                {date}
+              </Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              minWidth: '20%',
+              alignItems: 'center',
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            {followed ? (
+              <Button
+                sx={{
+                  color: 'primary.contrastText',
+                  borderColor: 'primary.contrastText',
+                  '&:hover': {
+                    borderColor: 'secondary.contrastText',
+                  },
+                }}
+                variant="outlined"
+                onClick={() => handleUnFollow()}
+              >
+                UnFollow
+              </Button>
+            ) : (
+              <Button
+                sx={{
+                  color: 'primary.contrastText',
+                  backgroundColor: 'secondary.contrastText',
+                }}
+                variant="contained"
+                onClick={() => handleFollow()}
+              >
+                Follow
+              </Button>
+            )}
           </Box>
         </Box>
         <Box
@@ -117,7 +313,7 @@ const ShowPost = (props) => {
               width: '100%',
             }}
           >
-            {props.data.content}
+            {props.data?.content}
           </InputLabel>
         </Box>
         <Box
@@ -135,11 +331,12 @@ const ShowPost = (props) => {
               //   backgroundColor: 'secondary.contrastText',
               color: 'secondary.contrastText',
             }}
+            onClick={() => handleLike()}
           >
             <FavoriteIcon
               sx={{
                 //   backgroundColor: 'secondary.contrastText',
-                color: 'secondary.contrastText',
+                color: like ? 'secondary.main' : 'secondary.contrastText',
               }}
             />
           </Button>
@@ -148,6 +345,7 @@ const ShowPost = (props) => {
               //   backgroundColor: 'secondary.contrastText',
               color: 'secondary.contrastText',
             }}
+            onClick={() => navigate(`/comment/${props?.data?._id}`)}
           >
             <SmsIcon
               sx={{
@@ -161,11 +359,12 @@ const ShowPost = (props) => {
               //   backgroundColor: 'secondary.contrastText',
               color: 'secondary.contrastText',
             }}
+            onClick={() => handleReshare()}
           >
             <LoopIcon
               sx={{
                 //   backgroundColor: 'secondary.contrastText',
-                color: 'secondary.contrastText',
+                color: reshare ? 'secondary.main' : 'secondary.contrastText',
               }}
             />
           </Button>
@@ -174,11 +373,14 @@ const ShowPost = (props) => {
               //   backgroundColor: 'secondary.contrastText',
               color: 'secondary.contrastText',
             }}
+            onClick={() => {
+              handleBookMark()
+            }}
           >
             <BookmarkIcon
               sx={{
                 //   backgroundColor: 'secondary.contrastText',
-                color: 'secondary.contrastText',
+                color: bookmark ? 'secondary.main' : 'secondary.contrastText',
               }}
             />
           </Button>

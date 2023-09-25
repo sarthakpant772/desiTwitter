@@ -3,13 +3,16 @@ const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
+const multer = require('multer')
 
+const auth = require('./middleware/auth')
 const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.json({ limit: '64mb' }))
 app.use(cors())
+app.use(express.static('public'))
 // middleware use
 // app.use(bodyParser.json())
 // routes
@@ -18,6 +21,9 @@ app.get('/', (req, res) => {
   res.json({ message: 'API Working' })
 })
 
+const uploadRoute = require('./routes/upload')
+app.use('/upload', uploadRoute)
+
 const authRoute = require('./routes/auth')
 app.use('/user', authRoute)
 
@@ -25,6 +31,7 @@ const userAction = require('./routes/userAction')
 app.use('/action', userAction)
 
 const post = require('./routes/post')
+const UserSchema = require('./model/UserSchema')
 app.use('/post', post)
 
 // connection

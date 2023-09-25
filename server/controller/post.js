@@ -1,4 +1,5 @@
 const PostSchema = require('../model/PostSchema')
+const UserSchema = require('../model/UserSchema')
 const User = require('../model/UserSchema')
 
 const createPost = async (req, res) => {
@@ -10,36 +11,70 @@ const createPost = async (req, res) => {
       author: req.user.id,
     })
 
-    await newPost.save()
+    const post = await newPost.save()
 
-    res
-      .status(201)
-      .json({ message: 'Post created successfully.', post: newPost })
+    res.status(201).json({ message: 'Post created successfully.', post: post })
   } catch (error) {
     console.error('Error creating post:', error)
     res.status(500).json({ error: 'Internal Server Error' })
   }
 }
 
+const getAllPostByUserID = async (req, res) => {
+  try {
+    const data = await PostSchema.find({ author: req.user.id })
+    res.status(201).json(data)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+}
 // Like a post
 const likePost = async (req, res) => {
+  // console.log('id', req.user.id)
   const { postId } = req.params
-  const { userId } = req.body
+  const userId = req.user.id
+  console.log(userId)
 
   try {
-    await PostSchema.findByIdAndUpdate(postId, { $inc: { likes: 1 } })
+    const user = await UserSchema.findById(userId)
 
-    res.status(200).json({ message: 'Post liked successfully.' })
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
+    const post = await PostSchema.find({ _id: postId })
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' })
+    }
+
+    const isPostLiked = await user.likedTweet.includes(postId)
+    if (isPostLiked) {
+      // Post is already liked, remove it from likedTweet
+      await UserSchema.findByIdAndUpdate(userId, {
+        $pull: { likedTweet: postId },
+      })
+      await PostSchema.findByIdAndUpdate(postId, { $inc: { likes: -1 } })
+    } else {
+      // Post is not liked, add it to likedTweet
+      await UserSchema.findByIdAndUpdate(userId, {
+        $push: { likedTweet: postId },
+      })
+      await PostSchema.findByIdAndUpdate(postId, { $inc: { likes: 1 } })
+    }
+
+    res.status(200).json({ message: 'Post liked/unliked successfully.' })
   } catch (error) {
-    console.error('Error liking post:', error)
+    console.error('Error liking/unliking post:', error)
     res.status(500).json({ error: 'Internal Server Error' })
   }
 }
 
 // Retweet a post
 const retweetPost = async (req, res) => {
-  const { postId } = req.params
-  const { userId } = req.body
+  const { postId } = req.body
+  const userId = req.user.id
 
   try {
     // Check if the user has already retweeted the post to avoid duplication
@@ -104,4 +139,5 @@ module.exports = {
   retweetPost,
   getAllPost,
   getPostById,
+  getAllPostByUserID,
 }
