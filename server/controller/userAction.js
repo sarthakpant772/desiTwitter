@@ -50,10 +50,9 @@ const getFollowers = async (req, res) => {
   const { userId } = req.params
 
   try {
-    const user = await UserSchema.findById(userId).populate(
-      'followers',
-      'username',
-    )
+    const user = await UserSchema.findById(userId)
+      .populate('followers', 'username')
+      .sort({ createdAt: -1 })
     res.status(200).json({
       followers: user.followers,
       followersCount: user.followersCount(),
@@ -68,10 +67,9 @@ const getFollowing = async (req, res) => {
   const { userId } = req.params
 
   try {
-    const user = await UserSchema.findById(userId).populate(
-      'following',
-      'username',
-    )
+    const user = await UserSchema.findById(userId)
+      .populate('following', 'username')
+      .sort({ createdAt: -1 })
     res.status(200).handleFollowjson({
       following: user.following,
       followingCount: user.followingCount(),
@@ -85,7 +83,9 @@ const getLikedPost = async (req, res) => {
   const id = req.user.id
 
   try {
-    const user = await UserSchema.findById(id).populate('likedTweet')
+    const user = await UserSchema.findById(id)
+      .populate('likedTweet')
+      .sort({ createdAt: -1 })
     res.status(200).json(user.likedTweet)
   } catch (err) {
     res.status(500).json(err)
@@ -176,7 +176,9 @@ const getResharePost = async (req, res) => {
   const id = req.user.id
 
   try {
-    const user = await UserSchema.findById(id).populate('retweets')
+    const user = await UserSchema.findById(id)
+      .populate('retweets')
+      .sort({ createdAt: -1 })
     res.status(200).json(user.bookmark)
   } catch (err) {
     res.status(500).json(err)
@@ -187,7 +189,9 @@ const getBookmarkedPosts = async (req, res) => {
   const id = req.user.id
 
   try {
-    const user = await UserSchema.findById(id).populate('bookmark')
+    const user = await UserSchema.findById(id)
+      .populate('bookmark')
+      .sort({ createdAt: -1 })
     res.status(200).json(user.bookmark)
   } catch (err) {
     res.status(500).json(err)

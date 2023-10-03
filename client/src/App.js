@@ -57,7 +57,7 @@ const App = () => {
       <Provider store={store}>
         <Box
           sx={{
-            width: '100vw',
+            window: '100vw',
             minHeight: '100vh',
             backgroundColor: 'primary.main',
           }}

@@ -9,6 +9,11 @@ import ShowPost from '../components/ShowPost'
 const ProfileScreen = () => {
   const data = useSelector((state) => state.user.data)
   const [post, setPost] = useState([])
+  const [activeButton, setActiveButton] = useState('Post')
+
+  const handleButtonClick = (button) => {
+    setActiveButton(button)
+  }
 
   const getAllPost = async () => {
     const id = localStorage.getItem('JWT')
@@ -53,15 +58,55 @@ const ProfileScreen = () => {
     }
   }
 
+  const getLikedPost = async () => {
+    const id = localStorage.getItem('JWT')
+    try {
+      const res = await axios.get('http://localhost:5000/action/getLikedPost', {
+        headers: {
+          'x-auth-token': id,
+        },
+      })
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getReshare = async () => {
+    const id = localStorage.getItem('JWT')
+    try {
+      const res = await axios.get('http://localhost:5000/action/getReshare', {
+        headers: {
+          'x-auth-token': id,
+        },
+      })
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     const fetchData = async () => {
-      const postsData = await getAllPost()
-      if (Array.isArray(postsData)) {
-        setPost(postsData)
+      if (activeButton === 'Post') {
+        const postsData = await getAllPost()
+        if (Array.isArray(postsData)) {
+          setPost(postsData)
+        }
+      } else if (activeButton === 'Likes') {
+        const postsData = await getLikedPost()
+        if (Array.isArray(postsData)) {
+          setPost(postsData)
+        }
+      } else if (activeButton === 'Reshare') {
+        const postsData = await getReshare()
+        if (Array.isArray(postsData)) {
+          setPost(postsData)
+        }
       }
     }
     fetchData()
-  }, [])
+  }, [activeButton])
 
   return (
     <Box>
@@ -160,7 +205,12 @@ const ProfileScreen = () => {
               borderTop: '3px solid',
               borderBottom: '3px solid red', // Add this to change the bottom border when hovering
             },
+            '&:active': {
+              borderBottom: '3px solid red', // Change this to red when active
+            },
+            borderBottom: activeButton === 'Post' ? '3px solid red' : 'none',
           }}
+          onClick={() => handleButtonClick('Post')}
         >
           <Typography variant="subtitle2" color="primary.contrastText">
             Post
@@ -173,7 +223,12 @@ const ProfileScreen = () => {
               borderTop: '3px solid',
               borderBottom: '3px solid red', // Add this to change the bottom border when hovering
             },
+            '&:active': {
+              borderBottom: '3px solid red', // Change this to red when active
+            },
+            borderBottom: activeButton === 'Likes' ? '3px solid red' : 'none',
           }}
+          onClick={() => handleButtonClick('Likes')}
         >
           <Typography variant="subtitle2" color="primary.contrastText">
             Likes
@@ -186,7 +241,9 @@ const ProfileScreen = () => {
               borderTop: '3px solid',
               borderBottom: '3px solid red', // Add this to change the bottom border when hovering
             },
+            borderBottom: activeButton === 'Reshare' ? '3px solid red' : 'none',
           }}
+          onClick={() => handleButtonClick('Reshare')}
         >
           <Typography variant="subtitle2" color="primary.contrastText">
             Media
@@ -199,7 +256,9 @@ const ProfileScreen = () => {
               borderTop: '3px solid',
               borderBottom: '3px solid red', // Add this to change the bottom border when hovering
             },
+            borderBottom: activeButton === 'Saved' ? '3px solid red' : 'none',
           }}
+          onClick={() => handleButtonClick('Saved')}
         >
           <Typography variant="subtitle2" color="primary.contrastText">
             Saved

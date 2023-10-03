@@ -9,14 +9,14 @@ const BookmarkScreen = () => {
   const fetchData = async () => {
     try {
       const res = await axios.get(
-        'http://localhost:5000/user/getBookmarkPost',
+        'http://localhost:5000/action/getBookmarkPost',
         {
           headers: {
             'x-auth-token': userId,
           },
         },
       )
-      console.log(res.data)
+      console.log('data', res.data)
       setData(res.data)
     } catch (err) {
       console.log(err)

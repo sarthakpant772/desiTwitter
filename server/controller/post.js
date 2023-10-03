@@ -2,6 +2,7 @@ const PostSchema = require('../model/PostSchema')
 const UserSchema = require('../model/UserSchema')
 const User = require('../model/UserSchema')
 const CommentSchema = require('../model/CommentSchema')
+
 const createPost = async (req, res) => {
   const { content } = req.body
 
@@ -22,7 +23,7 @@ const createPost = async (req, res) => {
 
 const getAllPostByUserID = async (req, res) => {
   try {
-    const data = await PostSchema.find({ author: req.user.id })
+    const data = await PostSchema.find({ author: req.user.id }).sort({ createdAt: -1 })
     res.status(201).json(data)
   } catch (err) {
     console.log(err)
@@ -144,7 +145,7 @@ const getPostById = async (req, res) => {
 
 const getAllPost = async (req, res) => {
   try {
-    const data = await PostSchema.find()
+    const data = await PostSchema.find().sort({ createdAt: -1 })
     res.status(200).json(data)
   } catch (err) {
     res.status(500).json(err)

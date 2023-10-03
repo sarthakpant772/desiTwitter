@@ -19,6 +19,7 @@ router.get('/getfollowing', getFollowing)
 router.get('/getfollower', getFollowers)
 router.get('/getLikedPost', auth, getLikedPost)
 router.post('/bookmarkPost', auth, bookmarkPost)
-router.post('/getBookmarkPost', auth, getBookmarkedPosts)
+router.get('/getBookmarkPost', auth, getBookmarkedPosts)
 router.post('/reshare', auth, resharePost)
+router.get('/getReshare', auth, resharePost)
 module.exports = router
