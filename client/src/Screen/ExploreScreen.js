@@ -35,7 +35,7 @@ const ExploreScreen = () => {
       <Box
         sx={{
           marginTop: '1em',
-          width: '95%',
+          width: { xs: '95%', md: '95%' },
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-evenly',

@@ -3,33 +3,10 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
-const CreateComment = () => {
+const CreateComment = (props) => {
   const [content, setContent] = useState('')
   const userData = useSelector((state) => state.user.data)
-  const handleSubmit = async () => {
-    // console.log(content)
-    if (content === '') {
-      alert('cannot create blank post')
-    } else {
-      const id = localStorage.getItem('JWT')
-      try {
-        await axios.post(
-          'http://localhost:5000/post/createPost',
-          { content },
-          {
-            headers: {
-              'x-auth-token': id,
-            },
-          },
-        )
-        setContent('')
-        // Optionally, you can handle success here
-      } catch (err) {
-        alert('can not post this')
-        console.error('Error creating post:', err)
-      }
-    }
-  }
+
   return (
     <Box
       sx={{
@@ -88,7 +65,7 @@ const CreateComment = () => {
               backgroundColor: 'secondary.contrastText',
               color: 'primary.contrastText',
             }}
-            onClick={() => handleSubmit()}
+            onClick={() => props.func(content)}
           >
             Comment
           </Button>

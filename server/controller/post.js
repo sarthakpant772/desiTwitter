@@ -1,7 +1,7 @@
 const PostSchema = require('../model/PostSchema')
 const UserSchema = require('../model/UserSchema')
 const User = require('../model/UserSchema')
-
+const CommentSchema = require('../model/CommentSchema')
 const createPost = async (req, res) => {
   const { content } = req.body
 
@@ -100,26 +100,44 @@ const retweetPost = async (req, res) => {
 // Comment on a post
 const commentOnPost = async (req, res) => {
   const { postId } = req.params
-  const { userId, commentText } = req.body
+  const { commentText } = req.body
+  const userId = req.user.id
 
   try {
-    await PostSchema.findByIdAndUpdate(postId, {
-      $push: { comments: { text: commentText, author: userId } },
+    const newComment = new CommentSchema({
+      content: commentText,
+      author: userId,
+      postId,
     })
-
-    res.status(200).json({ message: 'Comment added successfully.' })
+    const data = await newComment.save()
+    res.status(200).json(data)
   } catch (error) {
     console.error('Error adding comment:', error)
     res.status(500).json({ error: 'Internal Server Error' })
   }
 }
 
+const getCommentByPostId = async (req, res) => {
+  const { postId } = req.params
+
+  try {
+    const allComments = await CommentSchema.find({ postId: postId })
+    res.status(200).json(allComments)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+}
+
 const getPostById = async (req, res) => {
   const { postId } = req.params
+  console.log(postId)
   try {
     const data = await PostSchema.findById(postId)
+
     res.status(200).json(data)
   } catch (err) {
+    console.log(err)
     res.status(500).json(err)
   }
 }
@@ -132,6 +150,7 @@ const getAllPost = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
 module.exports = {
   createPost,
   likePost,
@@ -140,4 +159,5 @@ module.exports = {
   getAllPost,
   getPostById,
   getAllPostByUserID,
+  getCommentByPostId,
 }

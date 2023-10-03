@@ -55,7 +55,13 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <Box sx={{ widows: '100vw', height: '100vh' }}>
+        <Box
+          sx={{
+            width: '100vw',
+            minHeight: '100vh',
+            backgroundColor: 'primary.main',
+          }}
+        >
           <Routes>
             <Route path="/" element={<HeroScreen />}>
               <Route path="/" element={<TweetsScreen />} />

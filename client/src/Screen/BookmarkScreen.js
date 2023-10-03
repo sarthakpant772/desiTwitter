@@ -5,10 +5,17 @@ import ShowPost from '../components/ShowPost'
 
 const BookmarkScreen = () => {
   const [data, setData] = useState([])
-
+  const userId = localStorage.getItem('JWT')
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/post/allpost')
+      const res = await axios.get(
+        'http://localhost:5000/user/getBookmarkPost',
+        {
+          headers: {
+            'x-auth-token': userId,
+          },
+        },
+      )
       console.log(res.data)
       setData(res.data)
     } catch (err) {
@@ -21,9 +28,9 @@ const BookmarkScreen = () => {
 
   return (
     <Box sx={{ width: '100%', marginTop: '2em' }}>
-      {/* {data.map((oneData, index) => ( */}
-      <ShowPost />
-      {/* ))} */}
+      {data.map((oneData, index) => (
+        <ShowPost data={oneData} key={index} />
+      ))}
     </Box>
   )
 }

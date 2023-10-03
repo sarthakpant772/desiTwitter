@@ -5,22 +5,60 @@ import { useParams } from 'react-router-dom'
 import CreateComment from '../components/CreateComment'
 import ShowPost from '../components/ShowPost'
 
-const CommentScreen = () => {
+const CommentScreen = (props) => {
+  const userId = localStorage.getItem('JWT')
   const { id } = useParams()
   const [data, setData] = useState([])
+  const [comment, setComment] = useState([])
 
-  const fetchData = async () => {
+  const handleComment = async (e) => {
+    console.log(e)
+
     try {
-      const res = await axios.get('http://localhost:5000/post/allpost')
-      console.log(res.data)
-      setData(res.data)
+      await axios.post(
+        `http://localhost:5000/post/comment/${id}`,
+        {
+          commentText: e,
+        },
+        {
+          headers: {
+            'x-auth-token': userId,
+          },
+        },
+      )
+      console.log(`comment added`)
+    } catch (err) {
+      alert(`cannot comment on the post now`)
+    }
+  }
+  const fetchComment = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/post/allComment/${id}`)
+      return res.data
     } catch (err) {
       console.log(err)
     }
   }
+  const fetchData = async () => {
+    console.log(id)
+    try {
+      const res = await axios.get(`http://localhost:5000/post/postById/${id}`)
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
-    fetchData()
-  }, [])
+    const getData = async () => {
+      const d = await fetchData()
+      const c = await fetchComment()
+      setData(d)
+      setComment(c)
+    }
+    console.log(comment)
+    getData()
+  }, [id])
   return (
     <Box
       sx={{
@@ -41,7 +79,7 @@ const CommentScreen = () => {
           alignItems: 'center',
         }}
       >
-        <ShowPost />
+        <ShowPost data={data} />
       </Box>
       <Box
         sx={{
@@ -52,7 +90,7 @@ const CommentScreen = () => {
           alignItems: 'center',
         }}
       >
-        <CreateComment />
+        <CreateComment func={handleComment} />
       </Box>
       <Box
         sx={{
@@ -63,7 +101,7 @@ const CommentScreen = () => {
           alignItems: 'center',
         }}
       >
-        {data.map((oneData, index) => (
+        {comment?.map((oneData, index) => (
           <ShowPost key={index} data={oneData} />
         ))}
       </Box>

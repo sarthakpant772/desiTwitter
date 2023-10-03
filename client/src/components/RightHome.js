@@ -15,7 +15,7 @@ const RightHome = () => {
     <Box
       sx={{
         width: '100%',
-        height: '100%',
+        minHeight: '30em',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -28,7 +28,7 @@ const RightHome = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: '2em',
+          marginTop: '1em',
         }}
       >
         <TextField
@@ -61,10 +61,15 @@ const RightHome = () => {
           justifyContent: 'center',
         }}
       >
-        <Typography variant="h4" color="primary.contrastText">
+        <Typography
+          variant="h4"
+          color="primary.contrastText"
+          mt="0.5em"
+          ml="0.5em"
+        >
           Trending
         </Typography>
-        <Box sx={{ width: '100%', height: '90%' }}>
+        <Box sx={{ width: '100%', height: '90%' }} mt="0.5em" ml="0.5em">
           <TrendingNav
             trend="tech"
             hashTag="#thisisfucked"

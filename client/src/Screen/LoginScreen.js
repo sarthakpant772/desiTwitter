@@ -46,6 +46,8 @@ const LoginScreen = () => {
           alignItems: 'center',
           justifyContent: 'center',
         }}
+        ml="1em"
+        mr="1em"
       >
         <Box sx={{ width: '90%', height: '90%' }}>
           <Box
