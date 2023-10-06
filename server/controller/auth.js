@@ -2,6 +2,7 @@ const User = require('../model/UserSchema')
 const argon2 = require('argon2')
 const UserSchema = require('../model/UserSchema')
 const jwt = require('jsonwebtoken')
+const PostSchema = require('../model/PostSchema')
 
 const registerUser = async (req, res) => {
   password = req.body.password
@@ -113,6 +114,54 @@ const logout = async (req, res) => {
     .json({ messgae: 'done removed' })
 }
 
+const getUserByUserName = async (req, res) => {
+  const { userName } = req.params
+  try {
+    const data = await UserSchema.findOne({
+      userName,
+    })
+    res.status(200).json(data)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
+const getLikedPostByUserName = async (req, res) => {
+  const { userName } = req.params
+  try {
+    const data = await UserSchema.find({
+      userName,
+    }).populate('likedTweet')
+    res.status(200).json(data.likedTweet)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
+const getallPostByUserId = async (req, res) => {
+  const { userId } = req.params
+  try {
+    const data = await PostSchema.find({ author: userId }).sort({
+      createdAt: -1,
+    })
+    res.status(201).json(data)
+  } catch (err) {
+    console.log(err)
+    res.status(500).json(err)
+  }
+}
+
+const getRetweetByUserName = async (req, res) => {
+  const { userName } = req.params
+  try {
+    const data = await UserSchema.find({
+      userName,
+    }).populate('retweets')
+    res.status(200).json(data.retweets)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
 module.exports = {
   registerUser,
   loginUser,
@@ -120,4 +169,8 @@ module.exports = {
   getAllUser,
   logout,
   getUser,
+  getUserByUserName,
+  getLikedPostByUserName,
+  getRetweetByUserName,
+  getallPostByUserId,
 }

@@ -6,11 +6,41 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TrendingNav from './TrendingNav'
 import SearchIcon from '@mui/icons-material/Search'
+import axios from 'axios'
+import UserThumbNail from './UserThumbNail'
 
 const RightHome = () => {
+  const [userSearched, setUserSearched] = useState('')
+  const [searchedUser, setSearchedUser] = useState(null)
+  const [onPressEnter, setOnPressEnter] = useState(0)
+
+  const handleKeyPress = async (e) => {
+    if (e.key === 'Enter') {
+      setOnPressEnter(onPressEnter + 1)
+    }
+  }
+  const getSearchedUser = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/action/getUser/${userSearched}`,
+      )
+      return res.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  useEffect(() => {
+    const getData = async () => {
+      const check = await getSearchedUser()
+      setSearchedUser(check)
+      console.log(check)
+    }
+    getData()
+  }, [userSearched])
+
   return (
     <Box
       sx={{
@@ -23,15 +53,18 @@ const RightHome = () => {
     >
       <Box
         sx={{
+          position: 'relative',
           width: '100%',
           height: '4em',
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           marginTop: '1em',
         }}
       >
         <TextField
+          onKeyDown={handleKeyPress}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -39,6 +72,7 @@ const RightHome = () => {
               </InputAdornment>
             ),
           }}
+          onChange={(e) => setUserSearched(e.target.value)}
           sx={{
             width: '100%',
             borderRadius: '10px',
@@ -48,6 +82,26 @@ const RightHome = () => {
             },
           }}
         />
+        {searchedUser ? (
+          <Box
+            sx={{
+              display: 'flex',
+              width: '100%',
+              minHeight: '5em',
+              position: 'absolute',
+              top: '4em',
+              backgroundColor: 'primary.main',
+              flexDirection: 'column',
+              justifyContent: 'space-evenly',
+            }}
+          >
+            {searchedUser.map((user, index) => (
+              <Box sx={{ width: '100%' }} key={index}>
+                <UserThumbNail data={user} />
+              </Box>
+            ))}
+          </Box>
+        ) : null}
       </Box>
       <Paper
         sx={{

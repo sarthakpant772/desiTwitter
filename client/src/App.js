@@ -13,6 +13,7 @@ import { store } from './app/store'
 import { Provider } from 'react-redux'
 import BookmarkScreen from './Screen/BookmarkScreen'
 import CommentScreen from './Screen/CommentScreen'
+import UserProfileScreen from './Screen/UserProfileScreen'
 
 const App = () => {
   const theme = createTheme({
@@ -69,6 +70,7 @@ const App = () => {
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/bookmark" element={<BookmarkScreen />} />
               <Route path="/comment/:id" element={<CommentScreen />} />
+              <Route path="/user/:userName" element={<UserProfileScreen />} />
             </Route>
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/signup" element={<SignupScreen />} />

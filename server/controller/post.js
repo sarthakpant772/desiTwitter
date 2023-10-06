@@ -30,6 +30,7 @@ const getAllPostByUserID = async (req, res) => {
     res.status(500).json(err)
   }
 }
+
 // Like a post
 const likePost = async (req, res) => {
   // console.log('id', req.user.id)

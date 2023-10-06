@@ -8,6 +8,7 @@ const {
   bookmarkPost,
   getBookmarkedPosts,
   resharePost,
+  findUserByUserName,
 } = require('../controller/userAction')
 const auth = require('../middleware/auth')
 
@@ -22,4 +23,5 @@ router.post('/bookmarkPost', auth, bookmarkPost)
 router.get('/getBookmarkPost', auth, getBookmarkedPosts)
 router.post('/reshare', auth, resharePost)
 router.get('/getReshare', auth, resharePost)
+router.get('/getUser/:userName', findUserByUserName)
 module.exports = router

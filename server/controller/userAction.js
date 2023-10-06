@@ -198,6 +198,20 @@ const getBookmarkedPosts = async (req, res) => {
   }
 }
 
+const findUserByUserName = async (req, res) => {
+  const { userName } = req.params
+  try {
+    const data = await UserSchema.find({
+      userName: { $regex: `^${userName}`, $options: 'i' },
+    })
+    res.status(200).json(data)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
+
+
 module.exports = {
   getFollowers,
   getFollowing,
@@ -208,4 +222,5 @@ module.exports = {
   getBookmarkedPosts,
   resharePost,
   getResharePost,
+  findUserByUserName,
 }
