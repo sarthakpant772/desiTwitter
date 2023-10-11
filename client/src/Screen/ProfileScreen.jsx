@@ -3,7 +3,7 @@ import { Box, Button, Typography } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import ShowPost from '../components/ShowPost'
+import ShowPost from '../components/ShowPost.jsx'
 // import TweetsScreen from './TweetsScreen'
 
 const ProfileScreen = () => {

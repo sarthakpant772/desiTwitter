@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import ShowPost from '../components/ShowPost'
+import ShowPost from '../components/ShowPost.jsx'
 
 const BookmarkScreen = () => {
   const [data, setData] = useState([])

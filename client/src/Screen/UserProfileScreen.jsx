@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ShowPost from '../components/ShowPost'
+import ShowPost from '../components/ShowPost.jsx'
 import { Box, Button, Typography } from '@mui/material'
 import axios from 'axios'
 import { useSelector } from 'react-redux'

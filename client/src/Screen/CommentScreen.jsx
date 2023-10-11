@@ -3,7 +3,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import CreateComment from '../components/CreateComment'
-import ShowPost from '../components/ShowPost'
+import ShowPost from '../components/ShowPost.jsx'
 
 const CommentScreen = (props) => {
   const userId = localStorage.getItem('JWT')

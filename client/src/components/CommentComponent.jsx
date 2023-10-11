@@ -2,7 +2,7 @@ import { Box, Button, Typography } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { InputLabel } from '@mui/material'
 const CommentComponent = (props) => {
   const [userData, setUserData] = useState([])
   const [date, setDate] = useState()
@@ -136,7 +136,7 @@ const CommentComponent = (props) => {
             borderRadius: '10px',
           }}
         >
-          <InputLabe1
+          <InputLabel
             // disable
 
             sx={{
@@ -147,7 +147,7 @@ const CommentComponent = (props) => {
             }}
           >
             {props.data?.content}
-          </InputLabe1>
+          </InputLabel>
         </Box>
       </Box>
     </Box>

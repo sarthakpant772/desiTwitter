@@ -9,7 +9,6 @@ const LeftNav = () => {
   const isUserVerified = useSelector((state) => state.user.verified)
   const [logged, setLogged] = useState(false)
   const [userSearched, setUserSearched] = useState('')
-  
 
   useEffect(() => {
     dispatch(verifyLogin())

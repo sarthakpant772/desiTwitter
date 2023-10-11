@@ -3,6 +3,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 // import logo from '../static/images/navigationImages/logo.png'
 const NavOption = (props) => {
+  // const imageURL = `../static/images/navigationImages/${props.imgURL}`
+  // const imageURL = `../static/images/navigationImages/explore.png`
+  const imageURL = new URL(
+    `../static/images/navigationImages/${props.imgURL}`,
+    import.meta.url,
+  ).href
   return (
     <Box
       sx={{
@@ -27,11 +33,7 @@ const NavOption = (props) => {
             justifyContent: 'center',
           }}
         >
-          <Box
-            component="img"
-            sx={{ height: '2.5em' }}
-            src={require(`../static/images/navigationImages/${props.imgURL}`)}
-          />
+          <Box component="img" sx={{ height: '2.5em' }} src={imageURL} />
         </Box>
         <Typography
           sx={{
