@@ -21,13 +21,13 @@ const ShowPost = (props) => {
 
     try {
       await axios.post(
-        `http://localhost:5000/post/likePost/${props.data?._id}`,
+        `${process.env.URL}/post/likePost/${props.data?._id}`,
         { data: 'hello' },
         {
           headers: {
             'x-auth-token': id,
           },
-        },
+        }
       )
       setLike(!like)
       console.log('like/unlike')
@@ -41,13 +41,13 @@ const ShowPost = (props) => {
 
     try {
       await axios.post(
-        `http://localhost:5000/action/bookmarkPost`,
+        `${process.env.URL}/action/bookmarkPost`,
         { postId: props.data?._id },
         {
           headers: {
             'x-auth-token': id,
           },
-        },
+        }
       )
 
       setBookmark(!bookmark)
@@ -62,13 +62,13 @@ const ShowPost = (props) => {
 
     try {
       const data = await axios.put(
-        `http://localhost:5000/action/follow/${userData._id}`,
+        `${process.env.URL}/action/follow/${userData._id}`,
         null,
         {
           headers: {
             'x-auth-token': id,
           },
-        },
+        }
       )
       setFollowed(!followed)
       return data.data
@@ -81,13 +81,13 @@ const ShowPost = (props) => {
 
     try {
       const data = await axios.put(
-        `http://localhost:5000/action/unfollow/${userData?._id}`,
+        `${process.env.URL}/action/unfollow/${userData?._id}`,
         null,
         {
           headers: {
             'x-auth-token': id,
           },
-        },
+        }
       )
       setFollowed(!followed)
       return data.data
@@ -101,13 +101,13 @@ const ShowPost = (props) => {
 
     try {
       await axios.post(
-        `http://localhost:5000/action/reshare`,
+        `${process.env.URL}/action/reshare`,
         { postId: props.data?._id },
         {
           headers: {
             'x-auth-token': id,
           },
-        },
+        }
       )
       setReshare(!reshare)
       console.log('reshared/unReshared')
@@ -134,7 +134,7 @@ const ShowPost = (props) => {
   const getUserData = async () => {
     try {
       const udata = await axios.get(
-        `http://localhost:5000/user/user/${props.data.author}`,
+        `${process.env.URL}/user/user/${props.data.author}`
       )
       return udata.data
     } catch (err) {
@@ -145,7 +145,7 @@ const ShowPost = (props) => {
   const getCurrentUserData = async () => {
     const id = localStorage.getItem('JWT')
     try {
-      const udata = await axios.get(`http://localhost:5000/user/getUser`, {
+      const udata = await axios.get(`${process.env.URL}/user/getUser`, {
         headers: {
           'x-auth-token': id,
         },
@@ -223,7 +223,7 @@ const ShowPost = (props) => {
             width: '2.5em',
             borderRadius: '50%',
           }}
-          src={`http://localhost:5000/Images/${userData.profileImage}`}
+          src={`${process.env.URL}/Images/${userData.profileImage}`}
         />
       </Box>
       {/* right */}

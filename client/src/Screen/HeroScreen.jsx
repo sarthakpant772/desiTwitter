@@ -67,7 +67,6 @@ const HeroScreen = () => {
       <Box
         sx={{
           width: { xs: '90%', md: '50%' },
-
           marginTop: { xs: '4em', md: 0 },
           marginLeft: { xs: '1em', md: 0 },
           overflowY: 'scroll',

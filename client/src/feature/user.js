@@ -15,7 +15,7 @@ const initialState = {
 export const verifyLogin = createAsyncThunk('user/login', async () => {
   const id = localStorage.getItem('JWT')
 
-  const res = await axios.get('http://localhost:5000/user/getUser', {
+  const res = await axios.get(`${process.env.URL}/user/getUser`, {
     headers: {
       'x-auth-token': id,
     },

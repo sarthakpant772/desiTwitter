@@ -25,7 +25,7 @@ const CommentComponent = (props) => {
   const getUserData = async () => {
     try {
       const udata = await axios.get(
-        `http://localhost:5000/user/user/${props.data.author}`,
+        `${process.env.URL}/user/user/${props.data.author}`
       )
       return udata.data
     } catch (err) {
@@ -36,7 +36,7 @@ const CommentComponent = (props) => {
   const getCurrentUserData = async () => {
     const id = localStorage.getItem('JWT')
     try {
-      const udata = await axios.get(`http://localhost:5000/user/getUser`, {
+      const udata = await axios.get(`${process.env.URL}/user/getUser`, {
         headers: {
           'x-auth-token': id,
         },
@@ -91,7 +91,7 @@ const CommentComponent = (props) => {
             width: '2.5em',
             borderRadius: '50%',
           }}
-          src={`http://localhost:5000/Images/${userData.profileImage}`}
+          src={`${process.env.URL}/Images/${userData.profileImage}`}
         />
       </Box>
       {/* right */}

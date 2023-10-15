@@ -18,14 +18,14 @@ const SignupScreen = () => {
   const handleSubmit = async () => {
     const requiredFields = ['fname', 'email', 'userName', 'password']
     const areAllRequiredFieldsFilled = requiredFields.every(
-      (field) => form[field] !== '',
+      (field) => form[field] !== ''
     )
     if (areAllRequiredFieldsFilled === false) {
       alert('Fill all the required fields')
     }
     if (checkPassword === false) {
       try {
-        const data = axios.post('http://localhost:5000/user/signup', form)
+        const data = axios.post(`${process.env.URL}/user/signup`, form)
         console.log(data)
       } catch (err) {
         console.log(err)

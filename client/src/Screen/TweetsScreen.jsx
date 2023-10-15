@@ -9,7 +9,7 @@ const TweetsScreen = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/post/allpost')
+      const res = await axios.get(`${process.env.URL}/post/allpost`)
       console.log(res.data)
       setData(res.data)
     } catch (err) {

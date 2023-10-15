@@ -18,7 +18,7 @@ const UserProfileScreen = () => {
   const getUserData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/user/getUserByName/${userName}`,
+        `${process.env.URL}/user/getUserByName/${userName}`,
       )
       // console.log(res.data)
       return res.data
@@ -29,7 +29,7 @@ const UserProfileScreen = () => {
   const getPostByUserId = async (id) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/user/getAllPostByUserId/${id}`,
+        `${process.env.URL}/user/getAllPostByUserId/${id}`,
       )
       return res.data
     } catch (err) {
@@ -39,7 +39,7 @@ const UserProfileScreen = () => {
   const getLikedPost = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/user/likedtweet/${userName}`,
+        `${process.env.URL}/user/likedtweet/${userName}`,
       )
       return res.data
     } catch (err) {
@@ -110,7 +110,7 @@ const UserProfileScreen = () => {
           <Box
             component="img"
             sx={{ width: '100%', height: '100%', borderRadius: '50%' }}
-            src={`http://localhost:5000/Images/${data.profileImage}`} // Use the selected image or the default profile image
+            src={`${process.env.URL}/Images/${data.profileImage}`} // Use the selected image or the default profile image
           />
         </Box>
         {/* bio */}

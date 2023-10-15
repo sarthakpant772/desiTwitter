@@ -16,6 +16,7 @@ import CommentScreen from './Screen/CommentScreen'
 import UserProfileScreen from './Screen/UserProfileScreen'
 
 const App = () => {
+  console.log(process.env.URL)
   const theme = createTheme({
     palette: {
       common: {

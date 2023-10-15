@@ -15,13 +15,13 @@ const CreatePost = () => {
       const id = localStorage.getItem('JWT')
       try {
         await axios.post(
-          'http://localhost:5000/post/createPost',
+          `${process.env.URL}/post/createPost`,
           { content },
           {
             headers: {
               'x-auth-token': id,
             },
-          },
+          }
         )
         setContent('')
         // Optionally, you can handle success here
