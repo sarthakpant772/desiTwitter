@@ -16,7 +16,7 @@ const CommentScreen = (props) => {
 
     try {
       await axios.post(
-        `${process.env.URL}/post/comment/${id}`,
+        `${process.env.URLS}/post/comment/${id}`,
         {
           commentText: e,
         },
@@ -33,7 +33,7 @@ const CommentScreen = (props) => {
   }
   const fetchComment = async () => {
     try {
-      const res = await axios.get(`${process.env.URL}/post/allComment/${id}`)
+      const res = await axios.get(`${process.env.URLS}/post/allComment/${id}`)
       return res.data
     } catch (err) {
       console.log(err)
@@ -42,7 +42,7 @@ const CommentScreen = (props) => {
   const fetchData = async () => {
     console.log(id)
     try {
-      const res = await axios.get(`${process.env.URL}/post/postById/${id}`)
+      const res = await axios.get(`${process.env.URLS}/post/postById/${id}`)
       return res.data
     } catch (err) {
       console.log(err)

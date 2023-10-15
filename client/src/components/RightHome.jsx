@@ -25,7 +25,7 @@ const RightHome = () => {
   const getSearchedUser = async () => {
     try {
       const res = await axios.get(
-        `${process.env.URL}/action/getUser/${userSearched}`
+        `${process.env.URLS}/action/getUser/${userSearched}`
       )
       return res.data
     } catch (err) {

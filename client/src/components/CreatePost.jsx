@@ -15,7 +15,7 @@ const CreatePost = () => {
       const id = localStorage.getItem('JWT')
       try {
         await axios.post(
-          `${process.env.URL}/post/createPost`,
+          `${process.env.URLS}/post/createPost`,
           { content },
           {
             headers: {

@@ -21,7 +21,7 @@ const ShowPost = (props) => {
 
     try {
       await axios.post(
-        `${process.env.URL}/post/likePost/${props.data?._id}`,
+        `${process.env.URLS}/post/likePost/${props.data?._id}`,
         { data: 'hello' },
         {
           headers: {
@@ -41,7 +41,7 @@ const ShowPost = (props) => {
 
     try {
       await axios.post(
-        `${process.env.URL}/action/bookmarkPost`,
+        `${process.env.URLS}/action/bookmarkPost`,
         { postId: props.data?._id },
         {
           headers: {
@@ -62,7 +62,7 @@ const ShowPost = (props) => {
 
     try {
       const data = await axios.put(
-        `${process.env.URL}/action/follow/${userData._id}`,
+        `${process.env.URLS}/action/follow/${userData._id}`,
         null,
         {
           headers: {
@@ -81,7 +81,7 @@ const ShowPost = (props) => {
 
     try {
       const data = await axios.put(
-        `${process.env.URL}/action/unfollow/${userData?._id}`,
+        `${process.env.URLS}/action/unfollow/${userData?._id}`,
         null,
         {
           headers: {
@@ -101,7 +101,7 @@ const ShowPost = (props) => {
 
     try {
       await axios.post(
-        `${process.env.URL}/action/reshare`,
+        `${process.env.URLS}/action/reshare`,
         { postId: props.data?._id },
         {
           headers: {
@@ -134,7 +134,7 @@ const ShowPost = (props) => {
   const getUserData = async () => {
     try {
       const udata = await axios.get(
-        `${process.env.URL}/user/user/${props.data.author}`
+        `${process.env.URLS}/user/user/${props.data.author}`
       )
       return udata.data
     } catch (err) {
@@ -145,7 +145,7 @@ const ShowPost = (props) => {
   const getCurrentUserData = async () => {
     const id = localStorage.getItem('JWT')
     try {
-      const udata = await axios.get(`${process.env.URL}/user/getUser`, {
+      const udata = await axios.get(`${process.env.URLS}/user/getUser`, {
         headers: {
           'x-auth-token': id,
         },
@@ -223,7 +223,7 @@ const ShowPost = (props) => {
             width: '2.5em',
             borderRadius: '50%',
           }}
-          src={`${process.env.URL}/Images/${userData.profileImage}`}
+          src={`${process.env.URLS}/Images/${userData.profileImage}`}
         />
       </Box>
       {/* right */}

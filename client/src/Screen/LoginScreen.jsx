@@ -14,7 +14,7 @@ const LoginScreen = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post(`${process.env.URL}/user/login`, form)
+      const res = await axios.post(`${process.env.URLS}/user/login`, form)
       console.log(res)
       localStorage.setItem('JWT', res.data.token)
       dispatch(verifyLogin())

@@ -9,7 +9,7 @@ const BookmarkScreen = () => {
   const fetchData = async () => {
     try {
       const res = await axios.get(
-        `${process.env.URL}/action/getBookmarkPost`,
+        `${process.env.URLS}/action/getBookmarkPost`,
         {
           headers: {
             'x-auth-token': userId,

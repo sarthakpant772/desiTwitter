@@ -20,7 +20,7 @@ const ProfileScreen = () => {
     console.log(id)
     try {
       const response = await axios.get(
-        `${process.env.URL}/post/allPostByUserId`,
+        `${process.env.URLS}/post/allPostByUserId`,
         {
           headers: {
             'x-auth-token': id,
@@ -44,7 +44,7 @@ const ProfileScreen = () => {
     const id = localStorage.getItem('JWT')
     try {
       const res = await axios.post(
-        `${process.env.URL}/upload/profilePic`,
+        `${process.env.URLS}/upload/profilePic`,
         formdata,
         {
           headers: {
@@ -61,7 +61,7 @@ const ProfileScreen = () => {
   const getLikedPost = async () => {
     const id = localStorage.getItem('JWT')
     try {
-      const res = await axios.get(`${process.env.URL}/action/getLikedPost`, {
+      const res = await axios.get(`${process.env.URLS}/action/getLikedPost`, {
         headers: {
           'x-auth-token': id,
         },
@@ -75,7 +75,7 @@ const ProfileScreen = () => {
   const getReshare = async () => {
     const id = localStorage.getItem('JWT')
     try {
-      const res = await axios.get(`${process.env.URL}/action/getReshare`, {
+      const res = await axios.get(`${process.env.URLS}/action/getReshare`, {
         headers: {
           'x-auth-token': id,
         },
@@ -152,7 +152,7 @@ const ProfileScreen = () => {
           <Box
             component="img"
             sx={{ width: '100%', height: '100%', borderRadius: '50%' }}
-            src={`${process.env.URL}/Images/${data.profileImage}`} // Use the selected image or the default profile image
+            src={`${process.env.URLS}/Images/${data.profileImage}`} // Use the selected image or the default profile image
           />
         </Box>
         {/* bio */}
