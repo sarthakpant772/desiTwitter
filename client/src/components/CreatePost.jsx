@@ -48,6 +48,7 @@ const CreatePost = () => {
         <Box
           component="img"
           sx={{
+            display: { xs: 'none', md: 'block' },
             backgroundColor: 'red',
             marginTop: '1em',
             marginLeft: '1em',

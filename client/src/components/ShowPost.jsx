@@ -215,6 +215,7 @@ const ShowPost = (props) => {
         <Box
           component="img"
           sx={{
+            display: { xs: 'none', md: 'relative' },
             backgroundColor: 'red',
             marginTop: '1em',
             marginLeft: '1em',

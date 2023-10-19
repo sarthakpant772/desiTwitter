@@ -11,6 +11,7 @@ const LoginScreen = () => {
     password: '',
     username: '',
   })
+  console.log(`${process.env.URLS}/user/login`)
 
   const handleSubmit = async () => {
     try {
