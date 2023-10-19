@@ -38,7 +38,7 @@ const RightHome = () => {
       setSearchedUser(check)
       console.log(check)
     }
-    getData()
+    if (userSearched != '') getData()
   }, [userSearched])
 
   return (
