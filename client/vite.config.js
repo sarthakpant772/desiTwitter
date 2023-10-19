@@ -5,7 +5,7 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
     define: {
-      'process.env.URL': JSON.stringify(env.URL),
+      'process.env.URLS': JSON.stringify(env.URLS),
     },
     plugins: [reactRefresh()],
   }
