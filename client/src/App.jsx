@@ -14,9 +14,10 @@ import { Provider } from 'react-redux'
 import BookmarkScreen from './Screen/BookmarkScreen'
 import CommentScreen from './Screen/CommentScreen'
 import UserProfileScreen from './Screen/UserProfileScreen'
+import PrivateRoutes from './components/PrivateRoutes'
 
 const App = () => {
-  console.log(process.env.URL)
+  console.log(process.env.URLS)
   const theme = createTheme({
     palette: {
       common: {
@@ -64,14 +65,17 @@ const App = () => {
             backgroundColor: 'primary.main',
           }}
         >
+          
           <Routes>
             <Route path="/" element={<HeroScreen />}>
               <Route path="/" element={<TweetsScreen />} />
-              <Route path="/explore" element={<ExploreScreen />} />
-              <Route path="/profile" element={<ProfileScreen />} />
-              <Route path="/bookmark" element={<BookmarkScreen />} />
-              <Route path="/comment/:id" element={<CommentScreen />} />
-              <Route path="/user/:userName" element={<UserProfileScreen />} />
+              <Route path='/' element={<PrivateRoutes/>} >
+                <Route path="/explore" element={<ExploreScreen />} />
+                <Route path="/profile" element={<ProfileScreen />} />
+                <Route path="/bookmark" element={<BookmarkScreen />} />
+                <Route path="/comment/:id" element={<CommentScreen />} />
+                <Route path="/user/:userName" element={<UserProfileScreen />} />
+              </Route>
             </Route>
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/signup" element={<SignupScreen />} />

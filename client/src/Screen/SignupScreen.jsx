@@ -25,7 +25,7 @@ const SignupScreen = () => {
     }
     if (checkPassword === false) {
       try {
-        const data = axios.post(`${process.env.URL}/user/signup`, form)
+        const data = axios.post(`${process.env.URLS}/user/signup`, form)
         console.log(data)
       } catch (err) {
         console.log(err)
