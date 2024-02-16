@@ -1,12 +1,14 @@
-FROM node:latest
+FROM node:16-alpine
 
 WORKDIR /app
 
-COPY ./package*.json .
+COPY ./package.json .
 
 RUN npm install
 
 COPY . .
+
+ENV URLS = 'http://localhost:8080'
 
 EXPOSE 5173
 
