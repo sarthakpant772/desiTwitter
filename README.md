@@ -191,13 +191,6 @@ Check out <a href="https://github.com/sarthakpant772/desiTwitter/blob/master/COD
 
 We value an inclusive environment that respects all contributions. To ensure a positive experience for everyone, please review our Code of Conduct.
 
-
----
-
-<h3 align="center"> If you learnt something do give a ⭐ to this repo !!
-<div align="center"><h1>❤️ Thanks to all the contributors</h1></div>
-
-<a href="https://github.com/sarthakpant772/desiTwitter/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=sarthakpant772/desiTwitter" />
 </a>
 
