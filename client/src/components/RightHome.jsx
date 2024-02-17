@@ -110,7 +110,7 @@ const RightHome = () => {
           marginTop: '2em',
           width: '100%',
           minHeight: '40%',
-          maxHeight: '60%',
+          maxHeight: '80%',
           backgroundColor: 'primary.light',
           borderRadius: '10px',
           display: 'flex',
