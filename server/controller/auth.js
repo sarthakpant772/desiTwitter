@@ -162,7 +162,13 @@ const getRetweetByUserName = async (req, res) => {
     res.status(500).json(err)
   }
 }
+const getUserLoggedInStatus = async(req, res)=>{
+  res.status(200).json({
+    msg:'log in success'
+  })
+}
 module.exports = {
+  getUserLoggedInStatus,
   registerUser,
   loginUser,
   getUserById,

@@ -9,6 +9,7 @@ const {
   getRetweetByUserName,
   getUserByUserName,
   getallPostByUserId,
+  getUserLoggedInStatus,
 } = require('../controller/auth')
 const auth = require('../middleware/auth')
 
@@ -20,6 +21,7 @@ router.post('/login', loginUser)
 router.get('/user/:id', getUserById)
 router.get('/getAll', auth, getAllUser)
 router.get('/getUser', auth, getUser)
+router.get('/checkUserLoggedIn' , auth , getUserLoggedInStatus)
 router.get('/getUserByName/:userName', getUserByUserName)
 router.get('/getAllPostByUserId/:userId', getallPostByUserId)
 router.get('/likedtweet/:userName', getLikedPostByUserName)
