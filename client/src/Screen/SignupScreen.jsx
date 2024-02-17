@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Box, Button, Paper, TextField, Typography } from '@mui/material'
+import { useDispatch } from 'react-redux'
+import { makeAlert } from '../feature/alert'
 
 const SignupScreen = () => {
   const navigate = useNavigate()
@@ -12,16 +14,18 @@ const SignupScreen = () => {
     password: '',
     userName: '',
   })
-
+  const dispatch = useDispatch()
   const [confirmPassword, setConfirmPassword] = useState('')
   const [checkPassword, setCheckPassword] = useState()
   const handleSubmit = async () => {
     const requiredFields = ['fname', 'email', 'userName', 'password']
     const areAllRequiredFieldsFilled = requiredFields.every(
-      (field) => form[field] !== ''
+      (field) => form[field] !== '',
     )
     if (areAllRequiredFieldsFilled === false) {
-      alert('Fill all the required fields')
+      dispatch(
+        makeAlert({ status: 'info', message: 'Please Fill All Credentials' }),
+      )
     }
     if (checkPassword === false) {
       try {
@@ -31,9 +35,14 @@ const SignupScreen = () => {
         console.log(err)
       }
       // console.log(form)
-      navigate('/')
+      dispatch(
+        makeAlert({ status: 'success', message: 'Signed up successfully' }),
+      )
+      navigate('/login')
     } else {
-      alert('some fields are not correct')
+      dispatch(
+        makeAlert({ status: 'warning', message: 'Password are not validated' }),
+      )
     }
   }
 

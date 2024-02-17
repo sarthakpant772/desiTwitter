@@ -20,6 +20,9 @@ const LoginScreen = () => {
       const res = await axios.post(`${process.env.URLS}/user/login`, form)
       localStorage.setItem('JWT', res.data.token)
       dispatch(verifyLogin())
+      dispatch(
+        makeAlert({ status: 'success', message: 'Logged in successfully!' }),
+      )
       navigate('/')
     } catch (err) {
       dispatch(makeAlert({ status: 'error', message: 'Invalid Credentials' }))

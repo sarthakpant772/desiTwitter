@@ -28,6 +28,13 @@ const CreatePost = () => {
           },
         )
         setContent('')
+        dispatch(
+          makeAlert({
+            status: 'success',
+            message:
+              'Successfully post.It might take a while to validate your post.',
+          }),
+        )
         // Optionally, you can handle success here
       } catch (err) {
         // alert('can not post this')
@@ -69,6 +76,7 @@ const CreatePost = () => {
       <Box sx={{ width: '90%', marginRight: '1em' }}>
         <Box sx={{ width: '100%', marginTop: '1em' }}>
           <TextField
+            value={content}
             multiline
             minRows={4}
             label="Post new masala"
