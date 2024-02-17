@@ -15,6 +15,7 @@ import BookmarkScreen from './Screen/BookmarkScreen'
 import CommentScreen from './Screen/CommentScreen'
 import UserProfileScreen from './Screen/UserProfileScreen'
 import PrivateRoutes from './components/PrivateRoutes'
+import AlertComponent from './components/AlertComponent'
 
 const App = () => {
   console.log(process.env.URLS)
@@ -65,6 +66,7 @@ const App = () => {
             backgroundColor: 'primary.main',
           }}
         >
+          <AlertComponent />
           <Routes>
             <Route path="/" element={<HeroScreen />}>
               <Route path="/" element={<TweetsScreen />} />

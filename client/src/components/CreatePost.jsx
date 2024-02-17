@@ -1,16 +1,20 @@
 import { Box, Button, TextField } from '@mui/material'
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { makeAlert } from '../feature/alert'
 
 const CreatePost = () => {
   const [content, setContent] = useState('')
   const userData = useSelector((state) => state.user.data)
-
+  const dispatch = useDispatch()
   const handleSubmit = async () => {
     // console.log(content)
     if (content === '') {
-      alert('cannot create blank post')
+      dispatch(
+        makeAlert({ status: 'info', message: 'Cannot create blank post' }),
+      )
+      // alert('cannot create blank post')
     } else {
       const id = localStorage.getItem('JWT')
       try {
@@ -21,12 +25,20 @@ const CreatePost = () => {
             headers: {
               'x-auth-token': id,
             },
-          }
+          },
         )
         setContent('')
+        dispatch(
+          makeAlert({
+            status: 'success',
+            message:
+              'Successfully post.It might take a while to validate your post.',
+          }),
+        )
         // Optionally, you can handle success here
       } catch (err) {
-        alert('can not post this')
+        // alert('can not post this')
+        dispatch(makeAlert({ status: 'warning', message: 'Signin Required' }))
         console.error('Error creating post:', err)
       }
     }
@@ -64,6 +76,7 @@ const CreatePost = () => {
       <Box sx={{ width: '90%', marginRight: '1em' }}>
         <Box sx={{ width: '100%', marginTop: '1em' }}>
           <TextField
+            value={content}
             multiline
             minRows={4}
             label="Post new masala"
