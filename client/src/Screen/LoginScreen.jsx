@@ -4,9 +4,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
 import { verifyLogin } from '../feature/user'
+import { makeAlert } from '../feature/alert'
 const LoginScreen = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
   const [form, setForm] = useState({
     password: '',
     username: '',
@@ -16,11 +18,11 @@ const LoginScreen = () => {
   const handleSubmit = async () => {
     try {
       const res = await axios.post(`${process.env.URLS}/user/login`, form)
-      console.log(res)
       localStorage.setItem('JWT', res.data.token)
       dispatch(verifyLogin())
       navigate('/')
     } catch (err) {
+      dispatch(makeAlert({ status: 'error', message: 'Invalid Credentials' }))
       console.log(err)
     }
   }
