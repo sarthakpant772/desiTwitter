@@ -25,7 +25,7 @@ const RightHome = () => {
   const getSearchedUser = async () => {
     try {
       const res = await axios.get(
-        `${process.env.URLS}/action/getUser/${userSearched}`
+        `${process.env.URLS}/action/getUser/${userSearched}`,
       )
       return res.data
     } catch (err) {
@@ -46,6 +46,7 @@ const RightHome = () => {
       sx={{
         width: '100%',
         minHeight: '30em',
+        maxHeight: '90vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -64,6 +65,7 @@ const RightHome = () => {
         }}
       >
         <TextField
+          placeholder="Search user by username"
           onKeyDown={handleKeyPress}
           InputProps={{
             startAdornment: (
@@ -108,6 +110,7 @@ const RightHome = () => {
           marginTop: '2em',
           width: '100%',
           minHeight: '40%',
+          maxHeight: '60%',
           backgroundColor: 'primary.light',
           borderRadius: '10px',
           display: 'flex',

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   fname: {
@@ -32,42 +32,48 @@ const userSchema = new mongoose.Schema({
     min: 6,
     max: 255,
   },
-  userPost: { type: mongoose.Types.ObjectId, ref: 'DesiTwitterPost' },
+  userPost: { type: mongoose.Types.ObjectId, ref: "DesiTwitterPost" },
+  profileThumbNail: {
+    type: String,
+    default:
+      "https://imgs.search.brave.com/JSHSka1craSsoVqeAbvS3wAq2JMhtpBFRZdiMLcU448/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9wZnBt/YWtlci5jb20vX251/eHQvaW1nL3Jlc3Vs/dC1waWMtNS45ODg5/ZDNjLnBuZw",
+  },
   profileImage: {
     type: String,
-    default: 'default_profile_image.png',
+    default:
+      "https://imgs.search.brave.com/JSHSka1craSsoVqeAbvS3wAq2JMhtpBFRZdiMLcU448/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9wZnBt/YWtlci5jb20vX251/eHQvaW1nL3Jlc3Vs/dC1waWMtNS45ODg5/ZDNjLnBuZw",
   },
   followers: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'users',
+      ref: "users",
     },
   ],
   following: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'users',
+      ref: "users",
     },
   ],
   retweets: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'DesiTwitterPost',
+      ref: "DesiTwitterPost",
     },
   ],
   likedTweet: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'DesiTwitterPost',
+      ref: "DesiTwitterPost",
     },
   ],
   bookmark: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'DesiTwitterPost',
+      ref: "DesiTwitterPost",
     },
   ],
-})
+});
 
 // userSchema.methods.followersCount = function () {
 //   return this.followers.length
@@ -78,4 +84,4 @@ const userSchema = new mongoose.Schema({
 //   return this.following.length
 // }
 
-module.exports = mongoose.model('users', userSchema)
+module.exports = mongoose.model("users", userSchema);

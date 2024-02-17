@@ -65,11 +65,10 @@ const App = () => {
             backgroundColor: 'primary.main',
           }}
         >
-          
           <Routes>
             <Route path="/" element={<HeroScreen />}>
               <Route path="/" element={<TweetsScreen />} />
-              <Route path='/' element={<PrivateRoutes/>} >
+              <Route path="/" element={<PrivateRoutes />}>
                 <Route path="/explore" element={<ExploreScreen />} />
                 <Route path="/profile" element={<ProfileScreen />} />
                 <Route path="/bookmark" element={<BookmarkScreen />} />

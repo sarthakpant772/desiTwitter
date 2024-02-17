@@ -1,12 +1,12 @@
-const express = require('express')
-const multer = require('multer')
-const path = require('path')
-const { uploadProfilePic } = require('../controller/upload')
-const auth = require('../middleware/auth')
+const express = require("express");
+const multer = require("multer");
+const path = require("path");
+const { uploadProfilePic, uploadThumbNail } = require("../controller/upload");
+const auth = require("../middleware/auth");
 
+const router = express.Router();
 
-const router = express.Router()
+router.post("/profilePic", auth, uploadProfilePic);
+router.post("/thumbnail", auth, uploadThumbNail);
 
-router.post('/profilePic', auth, uploadProfilePic)
-
-module.exports = router
+module.exports = router;
