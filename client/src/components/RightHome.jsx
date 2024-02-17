@@ -25,7 +25,7 @@ const RightHome = () => {
   const getSearchedUser = async () => {
     try {
       const res = await axios.get(
-        `${process.env.URLS}/action/getUser/${userSearched}`
+        `${process.env.URLS}/action/getUser/${userSearched}`,
       )
       return res.data
     } catch (err) {
@@ -46,6 +46,7 @@ const RightHome = () => {
       sx={{
         width: '100%',
         minHeight: '30em',
+        maxHeight: '90vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -64,6 +65,7 @@ const RightHome = () => {
         }}
       >
         <TextField
+          placeholder="Search user by username"
           onKeyDown={handleKeyPress}
           InputProps={{
             startAdornment: (
@@ -108,6 +110,7 @@ const RightHome = () => {
           marginTop: '2em',
           width: '100%',
           minHeight: '40%',
+          maxHeight: '80%',
           backgroundColor: 'primary.light',
           borderRadius: '10px',
           display: 'flex',
@@ -126,17 +129,17 @@ const RightHome = () => {
         <Box sx={{ width: '100%', height: '90%' }} mt="0.5em" ml="0.5em">
           <TrendingNav
             trend="tech"
-            hashTag="#thisisfucked"
+            hashTag="#comming soon"
             numberOfPost="12k"
           />
           <TrendingNav
             trend="tech"
-            hashTag="#thisisfucked"
+            hashTag="#comming soon"
             numberOfPost="12k"
           />
           <TrendingNav
             trend="tech"
-            hashTag="#thisisfucked"
+            hashTag="#comming soon"
             numberOfPost="12k"
           />
         </Box>

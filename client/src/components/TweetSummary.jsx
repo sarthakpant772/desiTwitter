@@ -34,21 +34,21 @@ const TweetSummary = (props) => {
           color="secondary.contrastText"
           sx={{ textAlign: 'left' }}
         >
-          #this is your hash tag
+          #Comming soon
         </Typography>
         <Typography
           variant="subtitle1"
           color="secondary.light"
           sx={{ textAlign: 'left' }}
         >
-          One line about it
+          #Comming soon
         </Typography>
         <Typography
           variant="subtitle2"
           color="secondary.light"
           sx={{ textAlign: 'left' }}
         >
-          number of post
+          #Comming soon
         </Typography>
       </Button>
     </Box>

@@ -5,29 +5,31 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ShowPost from '../components/ShowPost.jsx'
 // import TweetsScreen from './TweetsScreen'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB7KVg2VZGY1vzxAcA_csjlwOBbHMT0In8",
-  authDomain: "mybloggingwebsite-93c9c.firebaseapp.com",
-  projectId: "mybloggingwebsite-93c9c",
-  storageBucket: "mybloggingwebsite-93c9c.appspot.com",
-  messagingSenderId: "1087955240882",
-  appId: "1:1087955240882:web:1c407358b4c9d0c323c6ab"
-};
+  apiKey: 'AIzaSyB7KVg2VZGY1vzxAcA_csjlwOBbHMT0In8',
+  authDomain: 'mybloggingwebsite-93c9c.firebaseapp.com',
+  projectId: 'mybloggingwebsite-93c9c',
+  storageBucket: 'mybloggingwebsite-93c9c.appspot.com',
+  messagingSenderId: '1087955240882',
+  appId: '1:1087955240882:web:1c407358b4c9d0c323c6ab',
+}
 
 // Initialize Firebase
 
 const ProfileScreen = () => {
-  const app = initializeApp(firebaseConfig);
+  const app = initializeApp(firebaseConfig)
   const storage = getStorage(app)
-  const [image , setImage] = useState('https://imgs.search.brave.com/jLTwrBSRPcoyhBJs1uPbMl500isS1N2O0JlI3BLUQoY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvY29vbC1wcm9m/aWxlLXBpY3R1cmUt/ODdoNDZnY29iamw1/ZTR4dS5qcGc')
+  const [image, setImage] = useState(
+    'https://imgs.search.brave.com/jLTwrBSRPcoyhBJs1uPbMl500isS1N2O0JlI3BLUQoY/rs:fit:500:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJzLmNvbS9p/bWFnZXMvZmVhdHVy/ZWQvY29vbC1wcm9m/aWxlLXBpY3R1cmUt/ODdoNDZnY29iamw1/ZTR4dS5qcGc',
+  )
   // console.log(storage , 'app')
   const data = useSelector((state) => state.user.data)
   const [post, setPost] = useState([])
@@ -47,7 +49,7 @@ const ProfileScreen = () => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       console.log(response.data) // Check the response data
 
@@ -61,33 +63,48 @@ const ProfileScreen = () => {
 
   const handleProfilePicChange = async (e) => {
     const file = e.target.files[0]
-    const storageRef = ref(storage , `profilePicture.${data.userName}`)
-    await uploadBytes(storageRef , file)
+    const storageRef = ref(storage, `profilePicture.${data.userName}`)
+    await uploadBytes(storageRef, file)
     const downLoadURl = await getDownloadURL(storageRef)
     setImage(downLoadURl)
     const id = localStorage.getItem('JWT')
-    try{
-
+    try {
       const res = await axios.post(
         `${process.env.URLS}/upload/profilePic`,
-        {file:downLoadURl},
+        { file: downLoadURl },
         {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       console.log(res)
-
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
-    // try {
+  }
 
-    //   console.log(res)
-    // } catch (err) {
-    //   console.log(err)
-    // }
+  const handlerThumbNailChange = async (e) => {
+    console.log(e.target.files[0])
+    const file = e.target.files[0]
+    const storageRef = ref(storage, `profileThumbNail/${data.userName}`)
+    await uploadBytes(storageRef, file)
+    const downLoadURl = await getDownloadURL(storageRef)
+    const id = localStorage.getItem('JWT')
+    try {
+      const res = await axios.post(
+        `${process.env.URLS}/upload/thumbnail`,
+        { file: downLoadURl },
+        {
+          headers: {
+            'x-auth-token': id,
+          },
+        },
+      )
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const getLikedPost = async () => {
@@ -152,14 +169,26 @@ const ProfileScreen = () => {
         }}
       >
         <Box
-          component="img"
+          variant="contained"
+          component="label"
           sx={{
             width: 'inherit',
             height: '15em',
             backgroundColor: 'primary.light',
             borderColor: 'primary.light',
           }}
-        />
+        >
+          <input
+            onChange={(e) => handlerThumbNailChange(e)}
+            type="file"
+            hidden
+          />
+          <Box
+            component="img"
+            sx={{ width: '100%', height: '100%' }}
+            src={data.profileThumbNail}
+          />
+        </Box>
         {/* imagebox */}
         <Box
           variant="contained"
