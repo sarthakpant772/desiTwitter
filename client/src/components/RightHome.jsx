@@ -129,17 +129,17 @@ const RightHome = () => {
         <Box sx={{ width: '100%', height: '90%' }} mt="0.5em" ml="0.5em">
           <TrendingNav
             trend="tech"
-            hashTag="#thisisfucked"
+            hashTag="#comming soon"
             numberOfPost="12k"
           />
           <TrendingNav
             trend="tech"
-            hashTag="#thisisfucked"
+            hashTag="#comming soon"
             numberOfPost="12k"
           />
           <TrendingNav
             trend="tech"
-            hashTag="#thisisfucked"
+            hashTag="#comming soon"
             numberOfPost="12k"
           />
         </Box>
