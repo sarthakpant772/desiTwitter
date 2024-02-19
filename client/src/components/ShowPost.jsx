@@ -211,19 +211,30 @@ const ShowPost = (props) => {
       }}
     >
       {/* left */}
-      <Box sx={{ width: '10%', height: '100%' }}>
+      <Box
+        sx={{
+          width: '10%',
+          height: '100%',
+          alignItems: 'center',
+          padding: '0.5rem',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Box
           component="img"
           sx={{
-            display: { xs: 'none', sm: 'block' },
+            display: { xs: 'block' },
             backgroundColor: 'red',
-            marginTop: '1em',
-            marginLeft: '1em',
-            marginRight: '1em',
-            height: '2.5em',
-            width: '2.5em',
+            // marginTop: '1em',
+            // marginLeft: '1em',
+            // marginRight: '1em',
+            objectFit: 'scale-down',
+            // height: '80%',
+            width: { xs: '90%', sm: '80%', md: '50%' },
+            height: 'contain',
             borderRadius: '50%',
-            zIndex: '100',
+            // zIndex: '100',
           }}
           src={`${userData.profileImage}`}
         />
