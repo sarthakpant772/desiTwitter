@@ -27,7 +27,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       setLike(!like)
       console.log('like/unlike')
@@ -47,7 +47,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
 
       setBookmark(!bookmark)
@@ -68,7 +68,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       setFollowed(!followed)
       return data.data
@@ -87,7 +87,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       setFollowed(!followed)
       return data.data
@@ -107,7 +107,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       setReshare(!reshare)
       console.log('reshared/unReshared')
@@ -134,7 +134,7 @@ const ShowPost = (props) => {
   const getUserData = async () => {
     try {
       const udata = await axios.get(
-        `${process.env.URLS}/user/user/${props.data.author}`
+        `${process.env.URLS}/user/user/${props.data.author}`,
       )
       return udata.data
     } catch (err) {
@@ -215,7 +215,7 @@ const ShowPost = (props) => {
         <Box
           component="img"
           sx={{
-            display: { xs: 'none', md: 'relative' },
+            display: { xs: 'none', sm: 'block' },
             backgroundColor: 'red',
             marginTop: '1em',
             marginLeft: '1em',
@@ -223,8 +223,9 @@ const ShowPost = (props) => {
             height: '2.5em',
             width: '2.5em',
             borderRadius: '50%',
+            zIndex: '100',
           }}
-          src={`${process.env.URLS}/Images/${userData.profileImage}`}
+          src={`${userData.profileImage}`}
         />
       </Box>
       {/* right */}
