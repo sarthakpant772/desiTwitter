@@ -24,13 +24,17 @@ const CreateComment = (props) => {
         <Box
           component="img"
           sx={{
+            display: { xs: 'block' },
             backgroundColor: 'red',
-            marginTop: '1em',
-            marginLeft: '1em',
-            marginRight: '1em',
-            height: '2.5em',
-            width: '2.5em',
+            // marginTop: '1em',
+            // marginLeft: '1em',
+            // marginRight: '1em',
+            objectFit: 'scale-down',
+            // height: '80%',
+            width: { xs: '90%', sm: '80%', md: '50%' },
+            height: 'contain',
             borderRadius: '50%',
+            // zIndex: '100',
           }}
           src={userData.profileImage}
         />
