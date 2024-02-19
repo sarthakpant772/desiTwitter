@@ -2,27 +2,8 @@ import React, { useEffect, useState } from 'react'
 import ShowPost from '../components/ShowPost.jsx'
 import { Box, Button, Typography } from '@mui/material'
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+
 import { useParams } from 'react-router-dom'
-
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyB7KVg2VZGY1vzxAcA_csjlwOBbHMT0In8",
-  authDomain: "mybloggingwebsite-93c9c.firebaseapp.com",
-  projectId: "mybloggingwebsite-93c9c",
-  storageBucket: "mybloggingwebsite-93c9c.appspot.com",
-  messagingSenderId: "1087955240882",
-  appId: "1:1087955240882:web:1c407358b4c9d0c323c6ab"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
 const UserProfileScreen = () => {
   const [data, setData] = useState([])
@@ -104,6 +85,7 @@ const UserProfileScreen = () => {
             backgroundColor: 'primary.light',
             borderColor: 'primary.light',
           }}
+          src={`${data.profileThumbNail}`}
         />
         {/* imagebox */}
         <Box
@@ -121,15 +103,10 @@ const UserProfileScreen = () => {
             borderRadius: '50%',
           }}
         >
-          <input
-            // onChange={(e) => handleProfilePicChange(e)}
-            type="file"
-            hidden
-          />
           <Box
             component="img"
             sx={{ width: '100%', height: '100%', borderRadius: '50%' }}
-            src={`${process.env.URLS}/Images/${data.profileImage}`} // Use the selected image or the default profile image
+            src={`${data.profileImage}`} // Use the selected image or the default profile image
           />
         </Box>
         {/* bio */}

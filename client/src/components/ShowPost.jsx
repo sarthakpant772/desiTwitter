@@ -27,7 +27,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       setLike(!like)
       console.log('like/unlike')
@@ -47,7 +47,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
 
       setBookmark(!bookmark)
@@ -68,7 +68,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       setFollowed(!followed)
       return data.data
@@ -87,7 +87,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       setFollowed(!followed)
       return data.data
@@ -107,7 +107,7 @@ const ShowPost = (props) => {
           headers: {
             'x-auth-token': id,
           },
-        }
+        },
       )
       setReshare(!reshare)
       console.log('reshared/unReshared')
@@ -134,7 +134,7 @@ const ShowPost = (props) => {
   const getUserData = async () => {
     try {
       const udata = await axios.get(
-        `${process.env.URLS}/user/user/${props.data.author}`
+        `${process.env.URLS}/user/user/${props.data.author}`,
       )
       return udata.data
     } catch (err) {
@@ -211,20 +211,32 @@ const ShowPost = (props) => {
       }}
     >
       {/* left */}
-      <Box sx={{ width: '10%', height: '100%' }}>
+      <Box
+        sx={{
+          width: '10%',
+          height: '100%',
+          alignItems: 'center',
+          padding: '0.5rem',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <Box
           component="img"
           sx={{
-            display: { xs: 'none', md: 'relative' },
+            display: { xs: 'block' },
             backgroundColor: 'red',
-            marginTop: '1em',
-            marginLeft: '1em',
-            marginRight: '1em',
-            height: '2.5em',
-            width: '2.5em',
+            // marginTop: '1em',
+            // marginLeft: '1em',
+            // marginRight: '1em',
+            objectFit: 'scale-down',
+            // height: '80%',
+            width: { xs: '90%', sm: '80%', md: '50%' },
+            height: 'contain',
             borderRadius: '50%',
+            // zIndex: '100',
           }}
-          src={`${process.env.URLS}/Images/${userData.profileImage}`}
+          src={`${userData.profileImage}`}
         />
       </Box>
       {/* right */}
