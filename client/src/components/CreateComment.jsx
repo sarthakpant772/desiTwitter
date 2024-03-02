@@ -6,7 +6,10 @@ import { useSelector } from 'react-redux'
 const CreateComment = (props) => {
   const [content, setContent] = useState('')
   const userData = useSelector((state) => state.user.data)
-
+  const handleComment = () => {
+    props.func(content)
+    setContent('') // Clear the input field after posting the comment
+  }
   return (
     <Box
       sx={{
@@ -20,17 +23,32 @@ const CreateComment = (props) => {
       }}
     >
       {/* left */}
-      <Box sx={{ width: '10%', height: '100%' }}>
+      <Box
+        sx={{
+          width: '10%',
+          height: '100%',
+          padding: '0.5rem',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <Box
           component="img"
           sx={{
+            display: { xs: 'block' },
             backgroundColor: 'red',
-            marginTop: '1em',
-            marginLeft: '1em',
-            marginRight: '1em',
-            height: '2.5em',
-            width: '2.5em',
+            // marginTop: '1em',
+            // marginLeft: '1em',
+            // marginRight: '1em',
+            // objectFit: 'scale-down',
+            // height: '80%',
+            width: { xs: '1.5rem', sm: '2.5rem', md: '3rem' },
+            height: { xs: '1.5rem', sm: '2.5rem', md: '3rem' },
+
             borderRadius: '50%',
+           
+            // zIndex: '100',
           }}
           src={userData.profileImage}
         />
@@ -40,6 +58,7 @@ const CreateComment = (props) => {
         <Box sx={{ width: '100%', marginTop: '1em' }}>
           <TextField
             multiline
+            value={content}
             minRows={4}
             label="Comment Below"
             InputLabelProps={{
@@ -65,7 +84,7 @@ const CreateComment = (props) => {
               backgroundColor: 'secondary.contrastText',
               color: 'primary.contrastText',
             }}
-            onClick={() => props.func(content)}
+            onClick={() => handleComment()}
           >
             Comment
           </Button>

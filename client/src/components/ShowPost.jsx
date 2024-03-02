@@ -214,7 +214,7 @@ const ShowPost = (props) => {
       <Box
         sx={{
           width: '10%',
-          height: '100%',
+          height: '10%',
           alignItems: 'center',
           padding: '0.5rem',
           display: 'flex',
@@ -229,10 +229,11 @@ const ShowPost = (props) => {
             // marginTop: '1em',
             // marginLeft: '1em',
             // marginRight: '1em',
-            objectFit: 'scale-down',
-            // height: '80%',
-            width: { xs: '90%', sm: '80%', md: '50%' },
-            height: 'contain',
+
+            // height: 'auto',
+            width: { xs: '1.5rem', sm: '2.5rem', md: '3rem' },
+            height: { xs: '1.5rem', sm: '2.5rem', md: '3rem' },
+
             borderRadius: '50%',
             // zIndex: '100',
           }}
