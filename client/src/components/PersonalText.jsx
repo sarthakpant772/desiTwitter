@@ -109,7 +109,7 @@ const PersonalText = ({ roomId }) => {
     <Box
       sx={{
         width: '100%',
-        height: '95dvh',
+        height: { xs: '90dvh', md: '95dvh' },
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -156,7 +156,7 @@ const PersonalText = ({ roomId }) => {
             sx={{
               width: '95%',
               backgroundColor: 'primary.light',
-              borderRadius:'10px',
+              borderRadius: '10px',
               borderColor: 'white',
               flex: 1, // Take remaining space in the parent container
               '& .MuiInputBase-input': {
