@@ -1,5 +1,5 @@
 import { Box, Button, TextField } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SingleSms from './SingleSms'
 import SendIcon from '@mui/icons-material/Send'
 import { useParams } from 'react-router-dom'
@@ -14,7 +14,12 @@ const PersonalText = ({ roomId }) => {
   const { receiverId } = useParams()
   const id = localStorage.getItem('JWT')
   const userName = useSelector((state) => state.user.data.userName)
-
+  const scrollRef = useRef(null)
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    }
+  }, [prevMsg])
   const getAllMsgData = async () => {
     try {
       const data = await axios.post(
@@ -47,7 +52,12 @@ const PersonalText = ({ roomId }) => {
 
   //  recieve data form socket
   socket.on('recievedMsg', (data) => {
-    const newArrat = [...prevMsg, data]
+    const newData = {
+      msg: data.msg,
+      sender: data.senderId,
+    }
+
+    const newArrat = [...prevMsg, newData]
     setPrevMsg(newArrat)
     console.log(data)
   })
@@ -55,44 +65,6 @@ const PersonalText = ({ roomId }) => {
   useEffect(() => {
     getAllMsgData()
   }, [])
-  // const handleSend = async () => {
-  //   // Implement logic to send the message
-  //   console.log('Sending message:', msg)
-
-  //   try {
-  //     const sendData = await axios.put(
-  //       `${process.env.URLS}/chat/sendmsg`,
-  //       {
-  //         msg: msg,
-  //         receiverId: receiverId,
-  //       },
-  //       {
-  //         headers: {
-  //           'x-auth-token': id,
-  //         },
-  //       },
-  //     )
-
-  //     const data = {
-  //       msg: msg,
-  //       sender: userName,
-  //     }
-
-  //     console.log(data)
-  //     const newArrat = [...prevMsg, data]
-  //     setPrevMsg(newArrat)
-
-  //     socket.emit('send', {
-  //       senderId: userName,
-  //       receiverId: receiverId,
-  //       msg: msg,
-  //     })
-  //     setMsg('')
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
-  //   // Clear the message input after sending
-  // }
 
   const handleSend = async () => {
     try {
@@ -137,12 +109,25 @@ const PersonalText = ({ roomId }) => {
     <Box
       sx={{
         width: '100%',
-        height: '100dvh',
+        height: '95dvh',
         display: 'flex',
         flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '2rem',
       }}
     >
-      <Box sx={{ height: '90vh', width: '100%', overflowY: 'scroll' }}>
+      <Box
+        ref={scrollRef}
+        sx={{
+          height: '90%',
+          width: '100%',
+          overflowY: 'scroll',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        }}
+      >
         {prevMsg.map((sms) => {
           console.log(sms.sender, userName, sms.sender === userName)
           return (
@@ -155,6 +140,7 @@ const PersonalText = ({ roomId }) => {
       </Box>
       <Box
         sx={{
+          width: '100%',
           height: '10dvh',
           display: 'flex',
           justifyContent: 'center',
@@ -168,7 +154,9 @@ const PersonalText = ({ roomId }) => {
           {/* TextField for typing the message */}
           <TextField
             sx={{
+              width: '95%',
               backgroundColor: 'primary.light',
+              borderRadius:'10px',
               borderColor: 'white',
               flex: 1, // Take remaining space in the parent container
               '& .MuiInputBase-input': {
