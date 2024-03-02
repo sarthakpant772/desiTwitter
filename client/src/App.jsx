@@ -16,6 +16,7 @@ import CommentScreen from './Screen/CommentScreen'
 import UserProfileScreen from './Screen/UserProfileScreen'
 import PrivateRoutes from './components/PrivateRoutes'
 import AlertComponent from './components/AlertComponent'
+import PersonalText from './components/PersonalText'
 
 const App = () => {
   console.log(process.env.URLS)
@@ -71,6 +72,7 @@ const App = () => {
             <Route path="/" element={<HeroScreen />}>
               <Route path="/" element={<TweetsScreen />} />
               <Route path="/" element={<PrivateRoutes />}>
+                <Route path="/sms/:receiverId" element={<PersonalText />} />
                 <Route path="/explore" element={<ExploreScreen />} />
                 <Route path="/profile" element={<ProfileScreen />} />
                 <Route path="/bookmark" element={<BookmarkScreen />} />

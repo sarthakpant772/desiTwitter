@@ -12,7 +12,7 @@ const app = express();
 const server = http.createServer(app); // Creating HTTP server
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5000",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 }); // Creating Socket.io server instance
@@ -40,30 +40,37 @@ const post = require("./routes/post");
 const UserSchema = require("./model/UserSchema");
 app.use("/post", post);
 
+const chat = require("./routes/chat");
+
+app.use("/chat", chat);
+
 // Socket.io connection
 
 function generateRoomId(senderId, receiverId) {
+  console.log(senderId, receiverId);
   // Sorting the IDs to ensure consistency in generating the room ID
   const sortedIds = [senderId, receiverId].sort();
-  return `${sortedIds[0]}` + `${sortedIds[1]}`;
+  return `${sortedIds[0]}` + "thuisasecretgeneratedkey" + `${sortedIds[1]}`;
 }
 
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
 
   // Example of handling a chat event
-  socket.on("join", ({ roomId}) => {
-    // const roomId = generateRoomId(senderId, receiverId);
+  socket.on("join", ({ senderId, receiverId }) => {
+    const roomId = generateRoomId(senderId, receiverId);
     console.log(roomId);
     socket.join(roomId);
   });
 
-  socket.on("send", ({ senderId, roomId, msg }) => {
+  socket.on("send", ({ senderId, receiverId, msg }) => {
     // Emit message to all users in the room
     // socket.join(roomId);
     // socket.emit("check");
     // io.emit(`${roomId}smsdirect`, msg);
-    socket.to(roomId).emit("sms", msg);
+    const roomId = generateRoomId(senderId, receiverId);
+
+    socket.to(roomId).emit("recievedMsg", { senderId: senderId, msg: msg });
     console.log(`Message from ${senderId} to ${roomId}: ${msg}`);
   });
 

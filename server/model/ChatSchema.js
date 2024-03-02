@@ -12,7 +12,7 @@ const chatSchema = new mongoose.Schema({
 });
 
 // Create the Twitter Post model
-const TwitterPost = mongoose.model("chatSchema", chatSchema);
+const Chat = mongoose.model("chatSchema", chatSchema);
 
 // Export the model to be used in other parts of the application
-module.exports = TwitterPost;
+module.exports = Chat;
