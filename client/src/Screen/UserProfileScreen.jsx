@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import ShowPost from '../components/ShowPost.jsx'
 import { Box, Button, Typography } from '@mui/material'
 import axios from 'axios'
-
-import { useParams } from 'react-router-dom'
+import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const UserProfileScreen = () => {
   const [data, setData] = useState([])
@@ -11,6 +11,7 @@ const UserProfileScreen = () => {
   const { userName } = useParams()
   const [activeButton, setActiveButton] = useState('Post')
 
+  const navigate = useNavigate()
   const handleButtonClick = (button) => {
     setActiveButton(button)
   }
@@ -66,6 +67,10 @@ const UserProfileScreen = () => {
     fetchData()
   }, [userName, activeButton])
 
+  const handleMsg = () => {
+    navigate(`/sms/${userName}`)
+  }
+
   return (
     <Box>
       <Box
@@ -110,34 +115,61 @@ const UserProfileScreen = () => {
           />
         </Box>
         {/* bio */}
-        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-          <Typography
-            variant="subtutle2"
-            sx={{ color: 'primary.contrastText' }}
-          >
-            {`${data.fname} ${data.lname}`}
-          </Typography>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box>
+            <Typography
+              variant="subtutle2"
+              sx={{ color: 'primary.contrastText' }}
+            >
+              {`${data.fname} ${data.lname}`}
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <Typography
+                variant="subtutle2"
+                sx={{ color: 'secondary.contrastText' }}
+              >
+                {`@${data.userName}`}
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ color: 'secondary.light', marginLeft: '1rem' }}
+              >
+                {`30-DEC`}
+              </Typography>
+            </Box>
+
+            <Typography variant="p" sx={{ color: 'primary.contrastText' }}>
+              this is fucking shittttttt
+            </Typography>
+          </Box>
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row',
               alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <Typography
-              variant="subtutle2"
-              sx={{ color: 'secondary.contrastText' }}
+            <Button
+              onClick={() => handleMsg()}
+              variant="outlined"
+              sx={{ padding: '0.5rem', borderColor: 'secondary.contrastText' }}
             >
-              {`@${data.userName}`}
-            </Typography>
-            <Typography variant="subtitle2" sx={{ color: 'secondary.light' }}>
-              30-DEC
-            </Typography>
+              <LocalPostOfficeIcon sx={{ color: 'secondary.contrastText' }} />
+            </Button>
           </Box>
-
-          <Typography variant="p" sx={{ color: 'primary.contrastText' }}>
-            this is fucking shittttttt
-          </Typography>
         </Box>
       </Box>
       {/* nav */}
